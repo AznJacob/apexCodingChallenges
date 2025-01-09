@@ -4,19 +4,19 @@ public with sharing class DataLord {
     }
     
     //Challenge I
-    public static List<AggregateResult> numAccounts(){
+    public static Integer numAccounts(){
         Integer totalAccounts = [SELECT COUNT() FROM Account];
         return totalAccounts;
     }
 
     //Challenge II
-    public static List<AggregateResult> numHot(){
+    public static Integer numHot(){
         Integer hotAccounts = [SELECT COUNT() FROM Account WHERE Rating = 'Hot'];
         return hotAccounts;
     }
 
     //Challenge III
-    public static List<AggregateResult> numComplex(){
+    public static Integer numComplex(){
         Integer ampAccounts = [SELECT COUNT() FROM Account WHERE Name LIKE '%&%'];
         return ampAccounts;
     }
@@ -27,8 +27,10 @@ public with sharing class DataLord {
     }
 
     //Challenge V
-    public static List<Opportunity> lastBigOpportunity(){
-        return [SELECT Name FROM Opportunity WHERE Amount > 100000 ORDER BY CloseDate DESC NULLS LAST LIMIT 1];
+    public static Opportunity lastBigOpportunity(){
+        List<Opportunity> opportunities = [SELECT Name FROM Opportunity WHERE Amount > 100000 ORDER BY CloseDate DESC NULLS LAST LIMIT 1];
+        Opportunity bigOpportunity = opportunities[0];
+        return bigOpportunity;
     }
 
     //Challenge VI
@@ -38,11 +40,11 @@ public with sharing class DataLord {
 
     //Challenge VII
     public static List<AggregateResult> mostPopularAccount(){
-        return [SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY COUNT(Id) DESC LIMIT 1];
+        return [SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY COUNT(Id) DESC NULLS LAST LIMIT 1];
     }
 
     //Elite Challenge
     public static List<AggregateResult> closeLeadSources (){
-        return [SELECT LeadSource, Count(Id) FROM Lead WHERE Rating ='Hot' AND LeadSource != null GROUP BY LeadSource ORDER BY Count(Id) DESC LIMIT 5];
+        return [SELECT LeadSource, Count(Id) FROM Lead WHERE Rating ='Hot' AND LeadSource != null GROUP BY LeadSource ORDER BY Count(Id) DESC NULLS LAST LIMIT 5];
     }
 }
