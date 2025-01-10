@@ -64,4 +64,50 @@ public with sharing class DataLord {
     public static List<List<sObject>> phoneNames(){
         return [FIND '*1000' IN PHONE FIELDS RETURNING Account(Name), Contact(Name), Lead(Name)];
     }
+
+    //DML Challenges
+    //Challenge I
+    public static void spawnContacts(){
+        List<Contact> contactList = new List<Contact>();
+        for(Integer i = 0; i < 200; i++)
+        {
+            Contact newContact = new Contact(
+                FirstName = 'First' + i,
+                LastName = 'Last' + i
+            );
+            contactList.add(newContact);
+        }
+        Database.insert(contactList);
+    }
+
+    //Challenge II
+    public static void createHomes(){
+        List<Account> accountList = new List<Account>();
+        for(Integer i = 0; i < 3; i++)
+        {
+            Account newAccount = new Account(
+                Name = 'Home' + i
+            );
+            accountList.add(newAccount);
+        }
+        Database.insert(accountList);
+    }
+
+    //Challenge III
+    public static void relocate(){
+        List<Contact> contactList = [SELECT Id FROM Contact ORDER BY CreatedDate DESC LIMIT 50];
+        Database.delete(contactList);
+    }
+
+    //Challenge IV
+    public static void assignHomes(){
+        List<Contact> contactList = [SELECT Id FROM Contact WHERE LastName LIKE 'Last%' ];
+        List<Account> accountList = [SELECT Id FROM Account WHERE Name LIKE 'Home%' LIMIT 3];
+
+        for (Contact currContact : contactList){
+            currContact.AccountId = accountList[(Integer)(Math.floor(Math.random() * 3))].Id;
+        }
+
+        Database.update(contactList);
+    }
 }
