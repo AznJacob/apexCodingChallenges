@@ -8,4 +8,4 @@
 System.debug(Calculator.Add(1,2));
 System.debug(Calculator.Multiply(2,2));
 System.debug(Calculator.Divide(4,2));
-System.debug(Calculator.Mod(7,2));
+System.debug(Calculator.Mod(4,2));
