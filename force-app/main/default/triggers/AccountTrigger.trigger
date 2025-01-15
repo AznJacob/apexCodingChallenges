@@ -8,10 +8,10 @@ trigger AccountTrigger on Account (before insert, before update, before delete, 
             
         }
         when BEFORE_DELETE{
-            AccountHelper.stopDeleteForAccountsWithContacts(Trigger.old);
+            //AccountHelper.stopDeleteForAccountsWithContacts(Trigger.old);
         }
         when AFTER_INSERT{
-            AccountHelper.createRelatedContact(Trigger.new);
+            //AccountHelper.createRelatedContact(Trigger.new);
         }
         when AFTER_UPDATE{
             
